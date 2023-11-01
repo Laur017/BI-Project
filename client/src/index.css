@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
 body{
   background-color: #99BF91;
-  color: #355367;
+  color: #232323;
   margin: 0;
   padding: 0;
   font-family: 'PT Sans', sans-serif;
@@ -42,6 +42,15 @@ button{
   transform-origin: top;
 }
 
+.general-div{
+  padding: 2rem;
+  border-radius: 50px;
+  background: #99BF91;
+  box-shadow:  20px 20px 60px #82a27b,
+               -20px -20px 60px #b0dca7;
+  letter-spacing: 1px;
+}
+
 /**
 *   Navbar 
 **/
@@ -56,9 +65,10 @@ nav{
 .left-nav{
   display: flex;
   align-items: center;
+  gap: 1rem;
   letter-spacing: 2px;
   cursor: pointer;
-  color: #355367;
+  color: #232323;
   text-decoration: none;
 }
 
@@ -70,7 +80,7 @@ nav{
 .right-nav button{
   background-color: rgba(0,0,0,0);
   border: none;
-  color: #355367;
+  color: #232323;
   letter-spacing: 2px;
   cursor: pointer;
   transition: all 0.3s ease-in;
@@ -85,7 +95,7 @@ nav{
 
 .right-nav button:hover{
   transition: all 0.5s ease-in;
-  border-bottom: 1px solid #355367;
+  border-bottom: 1px solid #232323;
   letter-spacing: 2.5px;
   /* font-weight: bold; */
 }

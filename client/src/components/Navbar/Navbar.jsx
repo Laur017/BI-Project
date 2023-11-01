@@ -12,10 +12,10 @@ export default function Navbar() {
 
         <div className="right-nav">
             <Link to="/associations"><button>Associations</button></Link>
-            <Link to="/"><button>Sales Evolution</button></Link>
-            <Link to="/"><button>Supply</button></Link>
-            <Link to="/"><button>Predicting</button></Link>
-            <Link to="/"><button>Future Evolution</button></Link>
+            <Link to="/sales"><button>Sales Evolution</button></Link>
+            <Link to="/supply"><button>Supply</button></Link>
+            <Link to="/predicting"><button>Predicting</button></Link>
+            <Link to="/future"><button>Future Evolution</button></Link>
         </div>
     </nav>
   )

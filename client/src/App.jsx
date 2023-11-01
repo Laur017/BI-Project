@@ -3,8 +3,13 @@ import { useState } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Home from './components/HomePage/Home'
 import Associations from './components/Associations/Associations'
+import Sales from './components/Sales/Sales'
+import Supply from './components/Supply/Supply'
+import Predicting from './components/Predicting/Predicting'
+import Future from './components/Future/Future'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+
 
 function App() {
   const location = useLocation();
@@ -16,6 +21,10 @@ function App() {
       <Routes location={location} key={location.pathname}>
         <Route index element={<Home />} />
         <Route path='/associations' element={<Associations />} />
+        <Route path='/sales' element={<Sales />} />
+        <Route path='/supply' element={<Supply />} />
+        <Route path='/predicting' element={<Predicting />} />
+        <Route path='/future' element={<Future />} />
       </Routes>
       </AnimatePresence>
     </div>

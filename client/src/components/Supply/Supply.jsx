@@ -3,10 +3,10 @@
 import React from 'react'
 import transition from '../../transition'
 
-function Associations() {
+function Supply() {
   return (
-    <div className='div-associations general-div'>Associations</div>
+    <div className='div-supply general-div'>Supply</div>
   )
 }
 
-export default transition(Associations);
+export default transition(Supply);
