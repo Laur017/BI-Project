@@ -21,10 +21,8 @@ export default function SelectYear() {
     let countMusic = new Array(musicType.length).fill(0);   
 
     useEffect(()=>{
-        console.log('macar intru aici ?')
         for(let i of data){
             if(i.age >= resMin && i.age <= resMax){
-                console.log('age : ', i.age)
                 countMusic[musicType.indexOf(i.music_type)]++;
             }
         }
