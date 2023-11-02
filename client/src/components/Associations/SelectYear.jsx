@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Plot from 'react-plotly.js'
 import Refresh from '../../assets/refresh.png'
-import data from '../../data';
+import {info} from '../../data';
 
 export default function SelectYear() {
     const [showGraph, setShowGraph] = useState(false);
@@ -11,17 +11,17 @@ export default function SelectYear() {
     const [resMin, setResMin] = useState(1)
     const [resMax, setResMax] = useState(99)
     const [percentages, setPercentages] = useState()
-    const n = data.length;
+    const n = info.length;
 
     let musicType = [];
-    for(let i of data){
+    for(let i of info){
         musicType.push(i.music_type)
     }
     musicType = [... new Set(musicType)];
     let countMusic = new Array(musicType.length).fill(0);   
 
     useEffect(()=>{
-        for(let i of data){
+        for(let i of info){
             if(i.age >= resMin && i.age <= resMax){
                 countMusic[musicType.indexOf(i.music_type)]++;
             }

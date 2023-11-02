@@ -2,17 +2,17 @@
 import { useEffect, useState } from 'react';
 import Refresh from '../../assets/refresh.png'
 import Plot from 'react-plotly.js';
-import data from '../../data';
+import {info} from '../../data';
 
 export default function SelectJob() {
     const [showGraph, setShowGraph] = useState(false);
     const [selectedJob, setSelectedJob] = useState('Developer');
     const [percentages, setPercentages] = useState();
-    const n = data.length;
+    const n = info.length;
 
     let musicType = [];
     let jobType = [];
-    for(let i of data){
+    for(let i of info){
         musicType.push(i.music_type)
         jobType.push(i.job)
     }
@@ -27,7 +27,7 @@ export default function SelectJob() {
 
     useEffect(() => {
 
-        for(let i of data){
+        for(let i of info){
             if(i.job === selectedJob){
                 countMusic[musicType.indexOf(i.music_type)]++;
             }

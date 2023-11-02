@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const data = [
+const info = [
 	{
 		"name": "Hedy Howard",
 		"age": 38,
@@ -302,4 +302,33 @@ const data = [
 	}
 ]
 
-export default data;
+const sales = [
+	{
+		"country": ['ROU', 'ESP', 'MDA', 'DEU', 'FRA'],
+		"media_type": "CD",
+		"sales": [10, 20, 5, 30, 15]
+	},
+	{
+		"country": ['ROU', 'ESP', 'MDA', 'DEU', 'FRA'],
+		"media_type": "DVD",
+		"sales": [24, 15, 8, 23, 40]
+	},
+	{
+		"country": ['ROU', 'ESP', 'MDA', 'DEU', 'FRA'],
+		"media_type": "Vinyl",
+		"sales": [18, 40, 76, 80, 3]
+	},
+	{
+		"country": ['ROU', 'ESP', 'MDA', 'DEU', 'FRA'],
+		"media_type": "Casettes",
+		"sales": [5, 17, 99, 30, 1]
+	},
+	{
+		"country": ['ROU', 'ESP', 'MDA', 'DEU', 'FRA'],
+		"media_type": "Blue-Ray",
+		"sales": [10, 20, 5, 30, 15]
+	}
+];
+
+
+export {info, sales};
