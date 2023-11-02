@@ -9,11 +9,11 @@ function Sales() {
     <div className='div-sales general-div'>
       <Plot 
         data ={[{
-          values : [33,33,34],
-          labels: ['React', 'Vue', 'Angular'],
+          values : [33,33,15,15,4],
+          labels: ['Rock', 'Pop', 'Rap', 'Hip-Hop', 'Manea', 'Jazz'],
           type: 'pie'
         }]}
-        layout={{width:500, height:500, title: 'Simple pie chart'}}
+        layout={{width:500, height:500, title: '18 - 20 ani'}}
       />
     </div>
   )
