@@ -62,18 +62,3 @@ function Sales() {
 
 export default transition(Sales);
  
-
-// [
-//   {
-//     x: ['2020', '2021', '2022', '2023'],
-//     y: [5, 3, 8, 12],
-//     type: 'scatter',
-//     name: 'Trace 1'
-//   },
-//   {
-//     x: ['2020', '2021', '2022', '2023'],
-//     y: [2, 6, 10, 8],
-//     type: 'scatter',
-//     name: 'Trace 2'
-//   }
-// ]
