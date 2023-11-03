@@ -214,3 +214,27 @@ span{
   width: 30%;
   text-align: center;
 }
+
+/**
+*   Sales
+**/
+
+.div-sales{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.div-sales > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.checkbox-div-sales{
+  display: flex;
+  flex-direction: column;
+}
