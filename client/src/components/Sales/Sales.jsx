@@ -18,7 +18,7 @@ function Sales() {
       setSelectedValues((prevValues) => prevValues.filter((value) => value !== name));
     }
   };
-
+  // let selectedTraces = [];
   useEffect(() => {
     const selectedTraces = genres
       .filter((genre) => selectedValues.includes(genre.genre))
@@ -40,19 +40,19 @@ function Sales() {
         <Plot data={traces} />
         <div className="checkbox-div-sales">
           <label htmlFor='pop'>
-            <input type='checkbox' name='pop' onChange={handleCheckboxChange} />Pop
+            <input type='checkbox' name='Pop' onChange={handleCheckboxChange} />Pop
           </label>
           <label htmlFor='rock'>
-            <input type='checkbox' name='rock' onChange={handleCheckboxChange} />Rock
+            <input type='checkbox' name='Rock' onChange={handleCheckboxChange} />Rock
           </label>
           <label htmlFor='rap'>
-            <input type='checkbox' name='rap' onChange={handleCheckboxChange} />Rap
+            <input type='checkbox' name='Rap' onChange={handleCheckboxChange} />Rap
           </label>
           <label htmlFor='hip-hop'>
-            <input type='checkbox' name='hip-hop' onChange={handleCheckboxChange} />Hip-hop
+            <input type='checkbox' name='Hip-Hop' onChange={handleCheckboxChange} />Hip-hop
           </label>
           <label htmlFor='manea'>
-            <input type='checkbox' name='manea' onChange={handleCheckboxChange} />Manea
+            <input type='checkbox' name='Manea' onChange={handleCheckboxChange} />Manea
           </label>
         </div>
       </div>
