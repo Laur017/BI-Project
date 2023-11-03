@@ -18,7 +18,7 @@ function Sales() {
       setSelectedValues((prevValues) => prevValues.filter((value) => value !== name));
     }
   };
-  // let selectedTraces = [];
+  
   useEffect(() => {
     const selectedTraces = genres
       .filter((genre) => selectedValues.includes(genre.genre))
@@ -33,27 +33,27 @@ function Sales() {
 
   }, [selectedValues]);
 
+  const mediaLabel = genres.map((i,idx) => 
+    (
+      <label htmlFor={i.genre} key={idx}>
+        <input type='checkbox' name={i.genre} onChange={handleCheckboxChange}/>
+        {i.genre}
+      </label>
+    )
+  )
+
   return (
     <div className='div-sales general-div'>
       <h3>Select one/more genre to see the sales evolution</h3>
       <div>
-        <Plot data={traces} />
+        <Plot data={traces} 
+          layout = {{
+            plot_bgcolor:"transparent", 
+            paper_bgcolor:"rgba(0,0,0,0)"
+          }}
+        />
         <div className="checkbox-div-sales">
-          <label htmlFor='pop'>
-            <input type='checkbox' name='Pop' onChange={handleCheckboxChange} />Pop
-          </label>
-          <label htmlFor='rock'>
-            <input type='checkbox' name='Rock' onChange={handleCheckboxChange} />Rock
-          </label>
-          <label htmlFor='rap'>
-            <input type='checkbox' name='Rap' onChange={handleCheckboxChange} />Rap
-          </label>
-          <label htmlFor='hip-hop'>
-            <input type='checkbox' name='Hip-Hop' onChange={handleCheckboxChange} />Hip-hop
-          </label>
-          <label htmlFor='manea'>
-            <input type='checkbox' name='Manea' onChange={handleCheckboxChange} />Manea
-          </label>
+          {mediaLabel}
         </div>
       </div>
     </div>
