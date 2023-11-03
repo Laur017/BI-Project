@@ -63,7 +63,7 @@ export default function SelectType() {
                 cmax: maxValue,
                 colorscale: 'Plasma',
                 colorbar: {
-                    title: 'Total Sales',
+                    title: 'Total',
                     ticksuffix: '',
                     showticksuffix: 'last'
                 },
@@ -83,7 +83,7 @@ export default function SelectType() {
           },
           plot_bgcolor:"transparent", 
           paper_bgcolor:"rgba(0,0,0,0)",
-          width:1000, 
+          width:800, 
           height:800
         }}
         />
