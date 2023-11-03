@@ -191,19 +191,18 @@ CREATE MATERIALIZED VIEW SALES_EVOLUTION_BASED_ON_TOTAL_SALES as
 	order by genre , year , sales 
 )
 select * from SALES_EVOLUTION_BASED_ON_TOTAL_SALES
-	
 
 -- 3. avg based on media type
 CREATE MATERIALIZED VIEW MEDIA_TYPES_AVG_MONTHS_ALL_YEARS as  
 (	
 	with sales_per_type_month_year as (
-	select m."Name" as name, EXTRACT(YEAR FROM inv."InvoiceDate") as year, TO_CHAR(inv."InvoiceDate"::date, 'Month') as month, COUNT(inv."InvoiceId") as nr_sold
+	select m."Name" as name, EXTRACT(YEAR FROM inv."InvoiceDate") as year, LEFT(TO_CHAR(inv."InvoiceDate"::date, 'Month'),3) as month, COUNT(inv."InvoiceId") as nr_sold
 	from public."Invoice" as inv
 		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
 		inner join public."Track" as t on invl."TrackId"= t."TrackId"
 		inner join public."Genre" as g on g."GenreId" = t."GenreId"
 		inner join public."MediaType" as m on m."MediaTypeId"= t."MediaTypeId"
-	group by  m."Name", EXTRACT(YEAR FROM inv."InvoiceDate"),TO_CHAR(inv."InvoiceDate"::date, 'Month')
+	group by  m."Name", EXTRACT(YEAR FROM inv."InvoiceDate"),LEFT(TO_CHAR(inv."InvoiceDate"::date, 'Month'),3)
 	order by m."Name" , year , month 
 	)
 	select name, month, AVG(nr_sold)
