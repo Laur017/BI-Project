@@ -238,3 +238,13 @@ span{
   display: flex;
   flex-direction: column;
 }
+
+/**
+*   Supply
+**/
+
+.div-supply{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -358,5 +358,17 @@ const genres = [
 	}
 ];
 
+const media = [
+	{
+		"media_type": "CD",
+		"months": ["Jan", "Feb","Mar", "Apr","May", "Jun","Jul", "Aug","Sep", "Oct","Nov", "Dec"],
+		"sales": [12,23,31,21,32,14,15,61,34,15,16,23]
+	},
+	{
+		"media_type": "DVD",
+		"months": ["Jan", "Feb","Mar", "Apr","May", "Jun","Jul", "Aug","Sep", "Oct","Nov", "Dec"],
+		"sales": [34,15,16,23,12,23,31,21,32,14,15,61]
+	}
+]
 
-export {info, sales, genres};
+export {info, sales, genres, media};
