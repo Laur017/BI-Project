@@ -237,6 +237,32 @@ span{
 .checkbox-div-sales{
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.checked-label {
+  /* background-color: red; */
+  border: 1px solid #232323 !important;
+  color: green !important;
+  border-radius: 1rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.443) !important;
+  transition: all 0.5s ease-in;
+}
+
+.input-sales{
+  display: none;
+}
+
+.label-sales {
+  border: 1px solid white;
+  border-radius: 1rem;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background-color: #2323235f;
+  color: white;
+  transition: all 0.5s ease-in;
 }
 
 /**

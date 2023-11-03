@@ -17,6 +17,7 @@ function Sales() {
     } else {
       setSelectedValues((prevValues) => prevValues.filter((value) => value !== name));
     }
+
   };
   
   useEffect(() => {
@@ -35,8 +36,11 @@ function Sales() {
 
   const mediaLabel = genres.map((i,idx) => 
     (
-      <label htmlFor={i.genre} key={idx}>
-        <input type='checkbox' name={i.genre} onChange={handleCheckboxChange}/>
+      <label htmlFor={i.genre} key={idx}
+      className={`label-sales ${selectedValues.includes(i.genre) ? 'checked-label' : ''}`}
+    
+      >
+        <input type='checkbox' name={i.genre} onChange={handleCheckboxChange} className='input-sales' id={i.genre}/>
         {i.genre}
       </label>
     )
