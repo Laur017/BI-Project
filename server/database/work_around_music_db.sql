@@ -121,28 +121,33 @@ from public."Customer";
 
 -- 1. a+b
 
-with customer_sales_per_genre as (
-	select "FirstName" || ' ' || "LastName" as name, "age", "occupation" as job, g."Name" as genre, COUNT(invl."InvoiceId") as total
-	from public."Customer" as c
-		inner join public."Invoice" as inv on c."CustomerId" = inv."CustomerId"
-		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
-		inner join public."Track" as t on invl."TrackId"= t."TrackId"
-		inner join public."Genre" as g on g."GenreId" = t."GenreId"
-	group by c."CustomerId", "FirstName" || ' ' || "LastName", "age", "occupation", g."Name"
-	order by total desc
-) 
-, preferences_per_customer as ( select  name, age, job, genre, RANK() OVER(PARTITION BY name ORDER BY total DESC) as preference
-				   from customer_sales_per_genre
-				  )
-				  
-select * 
-from preferences_per_customer
-where preference = 1
-order by name
+CREATE MATERIALIZED VIEW CUSTOMER_MUSIC_PREFERENCES as  
+(
+	with customer_sales_per_genre as (
+		select "FirstName" || ' ' || "LastName" as name, "age", "occupation" as job, g."Name" as genre, COUNT(invl."InvoiceId") as total
+		from public."Customer" as c
+			inner join public."Invoice" as inv on c."CustomerId" = inv."CustomerId"
+			inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+			inner join public."Track" as t on invl."TrackId"= t."TrackId"
+			inner join public."Genre" as g on g."GenreId" = t."GenreId"
+		group by c."CustomerId", "FirstName" || ' ' || "LastName", "age", "occupation", g."Name"
+		order by total desc
+	) 
+	, preferences_per_customer as ( select  name, age, job, genre, RANK() OVER(PARTITION BY name ORDER BY total DESC) as preference
+					   from customer_sales_per_genre
+								  )
 
+	select * 
+	from preferences_per_customer
+	where preference = 1
+	order by name
+)
+
+select * from CUSTOMER_MUSIC_PREFERENCES
 
 -- 1. c 
-	
+CREATE MATERIALIZED VIEW COUNTRY_MEDIATYPE_SALES as  
+(
 	select c."Country" as country, m."Name" as media_type, COUNT(invl."InvoiceId") as sales 
 	from public."Customer" as c 
 		inner join public."Invoice" as inv on c."CustomerId" = inv."CustomerId"
@@ -152,14 +157,17 @@ order by name
 
 	group by c."Country", m."Name"
 	order by country
+)
 
-
+select * from COUNTRY_MEDIATYPE_SALES
 
 --- 2. sales evolution over time
 
 
 	-- based on nr of sales
 	
+CREATE MATERIALIZED VIEW SALES_EVOLUTION_BASED_ON_NR_SALES as  
+(
 	select g."Name" as genre, EXTRACT(YEAR FROM inv."InvoiceDate") as year, count(invl."InvoiceLineId") as nr_sales
 	from public."Invoice" as inv
 		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
@@ -167,10 +175,13 @@ order by name
 		inner join public."Genre" as g on g."GenreId" = t."GenreId"
 	group by  g."Name", EXTRACT(YEAR FROM inv."InvoiceDate")
 	order by genre , year , nr_sales 
-	
+)
+
+select * from SALES_EVOLUTION_BASED_ON_NR_SALES
 	
 	-- based on money 
-	
+CREATE MATERIALIZED VIEW SALES_EVOLUTION_BASED_ON_TOTAL_SALES as  
+(	
 	select g."Name" as genre, EXTRACT(YEAR FROM inv."InvoiceDate") as year, SUM(inv."Total") as sales
 	from public."Invoice" as inv
 		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
@@ -178,11 +189,13 @@ order by name
 		inner join public."Genre" as g on g."GenreId" = t."GenreId"
 	group by  g."Name", EXTRACT(YEAR FROM inv."InvoiceDate")
 	order by genre , year , sales 
-	
+)
+select * from SALES_EVOLUTION_BASED_ON_TOTAL_SALES
 	
 
 -- 3. avg based on media type
-	
+CREATE MATERIALIZED VIEW MEDIA_TYPES_AVG_MONTHS_ALL_YEARS as  
+(	
 	with sales_per_type_month_year as (
 	select m."Name" as name, EXTRACT(YEAR FROM inv."InvoiceDate") as year, TO_CHAR(inv."InvoiceDate"::date, 'Month') as month, COUNT(inv."InvoiceId") as nr_sold
 	from public."Invoice" as inv
@@ -197,5 +210,7 @@ order by name
 	from sales_per_type_month_year as s
 	group by name, month
 	order by name
-		
+)
+
+select * from MEDIA_TYPES_AVG_MONTHS_ALL_YEARS
 	
