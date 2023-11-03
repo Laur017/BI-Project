@@ -116,9 +116,86 @@ from public."Customer";
 
 
 
+---------------------------------------QUERIES
+
+
+-- 1. a+b
+
+with customer_sales_per_genre as (
+	select "FirstName" || ' ' || "LastName" as name, "age", "occupation" as job, g."Name" as genre, COUNT(invl."InvoiceId") as total
+	from public."Customer" as c
+		inner join public."Invoice" as inv on c."CustomerId" = inv."CustomerId"
+		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+		inner join public."Track" as t on invl."TrackId"= t."TrackId"
+		inner join public."Genre" as g on g."GenreId" = t."GenreId"
+	group by c."CustomerId", "FirstName" || ' ' || "LastName", "age", "occupation", g."Name"
+	order by total desc
+) 
+, preferences_per_customer as ( select  name, age, job, genre, RANK() OVER(PARTITION BY name ORDER BY total DESC) as preference
+				   from customer_sales_per_genre
+				  )
+				  
+select * 
+from preferences_per_customer
+where preference = 1
+order by name
+
+
+-- 1. c 
+	
+	select c."Country" as country, m."Name" as media_type, COUNT(invl."InvoiceId") as sales 
+	from public."Customer" as c 
+		inner join public."Invoice" as inv on c."CustomerId" = inv."CustomerId"
+		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+		inner join public."Track" as t on invl."TrackId"= t."TrackId"
+		inner join public."MediaType" as m on m."MediaTypeId" = t."MediaTypeId"
+
+	group by c."Country", m."Name"
+	order by country
 
 
 
+--- 2. sales evolution over time
 
 
+	-- based on nr of sales
+	
+	select g."Name" as genre, EXTRACT(YEAR FROM inv."InvoiceDate") as year, count(invl."InvoiceLineId") as nr_sales
+	from public."Invoice" as inv
+		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+		inner join public."Track" as t on invl."TrackId"= t."TrackId"
+		inner join public."Genre" as g on g."GenreId" = t."GenreId"
+	group by  g."Name", EXTRACT(YEAR FROM inv."InvoiceDate")
+	order by genre , year , nr_sales 
+	
+	
+	-- based on money 
+	
+	select g."Name" as genre, EXTRACT(YEAR FROM inv."InvoiceDate") as year, SUM(inv."Total") as sales
+	from public."Invoice" as inv
+		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+		inner join public."Track" as t on invl."TrackId"= t."TrackId"
+		inner join public."Genre" as g on g."GenreId" = t."GenreId"
+	group by  g."Name", EXTRACT(YEAR FROM inv."InvoiceDate")
+	order by genre , year , sales 
+	
+	
 
+-- 3. avg based on media type
+	
+	with sales_per_type_month_year as (
+	select m."Name" as name, EXTRACT(YEAR FROM inv."InvoiceDate") as year, TO_CHAR(inv."InvoiceDate"::date, 'Month') as month, COUNT(inv."InvoiceId") as nr_sold
+	from public."Invoice" as inv
+		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+		inner join public."Track" as t on invl."TrackId"= t."TrackId"
+		inner join public."Genre" as g on g."GenreId" = t."GenreId"
+		inner join public."MediaType" as m on m."MediaTypeId"= t."MediaTypeId"
+	group by  m."Name", EXTRACT(YEAR FROM inv."InvoiceDate"),TO_CHAR(inv."InvoiceDate"::date, 'Month')
+	order by m."Name" , year , month 
+	)
+	select name, month, AVG(nr_sold)
+	from sales_per_type_month_year as s
+	group by name, month
+	order by name
+		
+	
