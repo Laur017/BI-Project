@@ -136,7 +136,6 @@ CREATE MATERIALIZED VIEW CUSTOMER_MUSIC_PREFERENCES as
 	, preferences_per_customer as ( select  name, age, job, genre, RANK() OVER(PARTITION BY name ORDER BY total DESC) as preference
 					   from customer_sales_per_genre
 								  )
-
 	select * 
 	from preferences_per_customer
 	where preference = 1
@@ -212,4 +211,28 @@ CREATE MATERIALIZED VIEW MEDIA_TYPES_AVG_MONTHS_ALL_YEARS as
 )
 
 select * from MEDIA_TYPES_AVG_MONTHS_ALL_YEARS
+
+
+-- sales by genre (per day )
+CREATE MATERIALIZED VIEW GENRE_SALES_PER_DATE as (
+	with sales_per_type_month_year as (
+	select g."Name" as name, DATE(inv."InvoiceDate") as date, SUM(inv."Total" * 100) as sale
+	from public."Invoice" as inv
+		inner join public."InvoiceLine" as invl on inv."InvoiceId" = invl."InvoiceId"
+		inner join public."Track" as t on invl."TrackId"= t."TrackId"
+		inner join public."Genre" as g on g."GenreId" = t."GenreId"
+	group by  g."Name", DATE(inv."InvoiceDate")
+	order by g."Name" , date  
+	)
+
+	select * from sales_per_type_month_year
+)
+
+-- total sales (per day)	
+CREATE MATERIALIZED VIEW TOTAL_SALES_PER_DATE as (
+	select DATE(inv."InvoiceDate"), sum(inv."Total" * 100)
+	from public."Invoice" as inv
+	group by  DATE(inv."InvoiceDate")
+	order by 1
+)
 	

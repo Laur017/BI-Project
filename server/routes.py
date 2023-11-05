@@ -2,6 +2,9 @@
 from fastapi import APIRouter
 from setup import postgres_conn
 import pycountry
+import pandas as pd
+
+from prophet import Prophet 
 
 router = APIRouter()
 
@@ -14,6 +17,44 @@ def get_alpha_3_country_code(country_name):
         return None
     
     
+def get_sales_data():
+    data = []
+    try:
+        QUERY = "SELECT * FROM TOTAL_SALES_PER_DATE"
+        cursor = postgres_conn.cursor()
+        cursor.execute(query=QUERY)
+        
+        data = cursor.fetchall()
+        
+        data = [{"date": record[0], "total": record[1]} for record in data]
+        
+    except Exception as e:
+        print('error, details: ' + str(e))
+    finally:
+        cursor.close()
+        
+    return data
+
+def prophet_prediction(data, nr_of_years_to_predict):
+    # prophet dataset preparation
+
+    df = pd.DataFrame(data)
+    df = df.rename(columns={"date": "ds", "total": "y"})
+    
+    # define the model:
+    model = Prophet()
+    model.fit(df)
+    
+    future = model.make_future_dataframe(periods = 12 * nr_of_years_to_predict, freq='M')
+    
+    forecast = model.predict(future)
+    
+    
+    print(df)
+    
+    print(forecast.loc[forecast['ds'].dt.year >= 2014])
+    
+
 
 @router.get("/", response_model=list)
 async def get_all_customers():
@@ -182,5 +223,13 @@ async def get_average_per_mediatypes_based_on_past_months_data():
         cursor.close()
         
     return [value for _, value in media_types_data.items()]
+
+
+@router.get("/predict-sales-evolution")
+async def predict_sales_evolution(nr_years):
+    data= get_sales_data()
+    prophet_prediction(data=data, nr_of_years_to_predict=int(nr_years))
+
+
 
     
