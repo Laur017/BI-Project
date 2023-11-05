@@ -52,11 +52,18 @@ def prophet_prediction(data, nr_of_years_to_predict):
     
     # print(df)
     
-    print(forecast.loc[forecast['ds'].dt.year >= 2014])
+    # print(forecast.loc[forecast['ds'].dt.year >= 2014])
     forecast=forecast.loc[forecast['ds'].dt.year >= 2014]
     forecast['ds'] = forecast['ds'].dt.date
     
-    return forecast[['ds', 'yhat', 'trend']].values.tolist()
+    forecast = forecast[['ds', 'yhat']] 
+    result = forecast[['ds', 'yhat']].values.tolist()
+
+    print(list(zip(result)))
+    return [{"date": record[0][0], "total": record[0][1]} for record in zip(result) ]
+    
+    
+    
     
 
 
@@ -237,7 +244,7 @@ async def predict_sales_evolution(nr_years):
 
 
 @router.get("/sales-evolution")
-async def predict_sales_evolution():
+async def get_sales_evolution_per_month():
     data= get_sales_data()
     return data
 
