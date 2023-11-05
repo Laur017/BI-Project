@@ -6,7 +6,7 @@ from routes import router
 
 app = FastAPI(title= "Music Sales analysis API",description='Business Intelligence Project')
 
-origins = ["http://localhost:3000"]
+origins = ["http://localhost:3000", "http://localhost:5173" ]
 
 # Add the CORS middleware to the FastAPI app.
 app.add_middleware(

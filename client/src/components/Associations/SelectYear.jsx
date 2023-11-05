@@ -1,8 +1,8 @@
+
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import Plot from 'react-plotly.js'
 import Refresh from '../../assets/refresh.png'
-import {info} from '../../data';
 
 export default function SelectYear() {
     const [showGraph, setShowGraph] = useState(false);
@@ -11,31 +11,53 @@ export default function SelectYear() {
     const [resMin, setResMin] = useState(1)
     const [resMax, setResMax] = useState(99)
     const [percentages, setPercentages] = useState()
-    const n = info.length;
+    const [data, setData] = useState([])
+    const [musicT, setMusicT] = useState([])
+    let n;
 
     let musicType = [];
-    for(let i of info){
-        musicType.push(i.music_type)
-    }
-    musicType = [... new Set(musicType)];
-    let countMusic = new Array(musicType.length).fill(0);   
+    let countMusic;     
 
     useEffect(()=>{
-        for(let i of info){
+
+        fetch(`http://127.0.0.1:8000/api/v1/music-sales-data/customers-music-associations?lower_age=${resMin}&upper_age=${resMax}`)
+        .then(response => response.json())
+        .then(data => setData(data))
+        .catch(error => console.error(error));
+
+
+    },[resMin,resMax,showGraph]) 
+
+    useEffect(() => {
+        musicType = []
+        for(let i of data){
+            musicType.push(i.music_type)
+        }
+        setMusicT([... new Set(musicType)]);
+
+        n = data.length;
+
+        countMusic = new Array(musicT.length).fill(0);   
+
+         for(let i of data){
             if(i.age >= resMin && i.age <= resMax){
-                countMusic[musicType.indexOf(i.music_type)]++;
+                countMusic[musicT.indexOf(i.music_type)]++;
             }
         }
+
         const per = countMusic.map(value => (value / n) * 100);
         setPercentages(per)
-    },[resMin,resMax])
 
-    
+        console.log(resMax, ' - ', resMin)
+        console.log(musicT)
+        console.log(per)
+    },[data])
 
     const handleAge = () =>{
         setResMin(minAge);
         setResMax(maxAge);
     }
+
   return (
     <div className="div-select-year">
         <div className="upper-part" onClick={() => setShowGraph(!showGraph)}>
@@ -55,20 +77,23 @@ export default function SelectYear() {
                 </div>
                 <img src={Refresh} className='refresh-img' onClick={handleAge}/>
             </div>
-            
-            <Plot 
-            data ={[{
-            values : percentages,
-            labels: musicType,
-            type: 'pie'
-            }]}
-            layout={{
-                width:500, 
-                height:500, 
-                title: `Results between ${resMin} - ${resMax} years`, 
-                plot_bgcolor:"transparent", 
-                paper_bgcolor:"rgba(0,0,0,0)"}}
-        />
+
+                <Plot
+                    data={[{
+                    values: percentages,
+                    labels: musicT,
+                    type: 'pie'
+                    }]}
+                    layout={{
+                    width: 500,
+                    height: 500,
+                    title: `Results between ${resMin} - ${resMax} years`,
+                    plot_bgcolor: 'transparent',
+                    paper_bgcolor: 'rgba(0,0,0,0)'
+                    }}
+                />
+
+            <div id="chart"></div>
         </div>
     </div>
   )
