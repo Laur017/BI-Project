@@ -53,6 +53,7 @@ def prophet_prediction(data, nr_of_years_to_predict):
     # print(df)
     
     print(forecast.loc[forecast['ds'].dt.year >= 2014])
+    forecast=forecast.loc[forecast['ds'].dt.year >= 2014]
     forecast['ds'] = forecast['ds'].dt.date
     
     return forecast[['ds', 'yhat', 'trend']].values.tolist()
