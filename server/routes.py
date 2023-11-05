@@ -50,9 +50,12 @@ def prophet_prediction(data, nr_of_years_to_predict):
     forecast = model.predict(future)
     
     
-    print(df)
+    # print(df)
     
     print(forecast.loc[forecast['ds'].dt.year >= 2014])
+    forecast['ds'] = forecast['ds'].dt.date
+    
+    return forecast[['ds', 'yhat', 'trend']].values.tolist()
     
 
 
@@ -228,7 +231,7 @@ async def get_average_per_mediatypes_based_on_past_months_data():
 @router.get("/predict-sales-evolution")
 async def predict_sales_evolution(nr_years):
     data= get_sales_data()
-    prophet_prediction(data=data, nr_of_years_to_predict=int(nr_years))
+    return prophet_prediction(data=data, nr_of_years_to_predict=int(nr_years))
 
 
 
