@@ -236,4 +236,12 @@ async def predict_sales_evolution(nr_years):
 
 
 
+@router.get("/sales-evolution")
+async def predict_sales_evolution():
+    data= get_sales_data()
+    return data
+
+
+
+
     
