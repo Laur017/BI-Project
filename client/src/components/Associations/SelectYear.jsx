@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
@@ -48,9 +49,6 @@ export default function SelectYear() {
         const per = countMusic.map(value => (value / n) * 100);
         setPercentages(per)
 
-        console.log(resMax, ' - ', resMin)
-        console.log(musicT)
-        console.log(per)
     },[data])
 
     const handleAge = () =>{
