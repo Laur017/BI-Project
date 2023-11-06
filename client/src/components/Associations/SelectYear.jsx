@@ -19,6 +19,7 @@ export default function SelectYear() {
     const [pieChart, setPieChart] = useState(true)
     const [chartMusicT, setChartMusicT] = useState([])
     const [chartMusicP, setChartMusicP] = useState([])
+    const [quant, setQuant] = useState([])
     let n;
 
     let musicType = [];
@@ -56,7 +57,7 @@ export default function SelectYear() {
                 countMusic[musicT.indexOf(i.music_type)]++;
             }
         }
-
+        setQuant(countMusic)
         const per = countMusic.map(value => Math.round(((value / n) * 100) * 100) / 100 );
         setPercentages(per)
 
@@ -64,9 +65,9 @@ export default function SelectYear() {
 
     useEffect(() => {
 
-        let pp =[['Procentages']]
-        for(let i of percentages){
-            pp.push([i])
+        let pp =[['Quantity','Procentages']]
+        for(let i in percentages){
+            pp.push([quant[i], percentages[i]])
         }
         setChartMusicP(pp)
     },[percentages])

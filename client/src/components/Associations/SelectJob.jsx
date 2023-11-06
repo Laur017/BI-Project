@@ -14,6 +14,7 @@ export default function SelectJob() {
     const [pieChart, setPieChart] = useState(true)
     const [chartMusicT, setChartMusicT] = useState([])
     const [chartMusicP, setChartMusicP] = useState([])
+    const [quant, setQuant] = useState([])
     let n;
 
     let musicType;
@@ -56,12 +57,13 @@ export default function SelectJob() {
                 countMusic[musicT.indexOf(i.music_type)]++;
             }
         }
+        setQuant(countMusic)
         const per = countMusic.map(value => Math.round(((value / n) * 100) * 100) / 100 );
         setPercentages(per)
 
-        let pp =[['Procentages']]
-        for(let i of percentages){
-            pp.push([((i * n)/10).toFixed(2)])
+        let pp =[['Quantity','Procentages']]
+        for(let i in percentages){
+            pp.push([quant[i],((percentages[i] * n)/10).toFixed(2)])
         }
         setChartMusicP(pp)
         
