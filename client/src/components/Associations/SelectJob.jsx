@@ -6,7 +6,7 @@ import Right from '../../assets/switch_r.png'
 
 export default function SelectJob() {
     const [showGraph, setShowGraph] = useState(false);
-    const [selectedJob, setSelectedJob] = useState('journalist');
+    const [selectedJob, setSelectedJob] = useState('');
     const [percentages, setPercentages] = useState([]);
     const [data, setData] = useState([])
     const [musicT, setMusicT] = useState([])
@@ -83,7 +83,7 @@ export default function SelectJob() {
             <div>
                 <h4>Select job: </h4>
                 <select className='select-job'>
-                    
+                    <option>Select</option>
                     {Options}
                 </select>
             </div>
@@ -98,7 +98,7 @@ export default function SelectJob() {
                 layout={{
                     width: 500,
                     height: 500,
-                    title: `Results for ${selectedJob}`,
+                    title: `${selectedJob && 'Results for'} ${selectedJob} `,
                     plot_bgcolor: 'transparent',
                     paper_bgcolor: 'rgba(0,0,0,0)'
                 }}
@@ -125,7 +125,7 @@ export default function SelectJob() {
                     layout={{
                         width: 800,
                         height: 500,
-                        title: `Results for ${selectedJob}`,
+                        title: `${selectedJob && 'Results for'} ${selectedJob} `,
                         plot_bgcolor: 'transparent',
                         paper_bgcolor: 'rgba(0,0,0,0)'
                     }}

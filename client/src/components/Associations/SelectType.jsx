@@ -5,7 +5,7 @@ import Plot from 'react-plotly.js';
 
 export default function SelectType() {
   const [showGraph, setShowGraph] = useState(false);
-    const [selectedType, setSelectedType] = useState('CD');
+    const [selectedType, setSelectedType] = useState('');
     const [percentages, setPercentages] = useState();
     const [salesValue, setSalesValue] = useState();
     const [maxValue, setMaxValue] = useState();
@@ -80,7 +80,7 @@ export default function SelectType() {
             <div>
                 <h4>Select media type: </h4>
                 <select className='select-job'>
-                    
+                  <option>Select</option>
                     {mediaT && options}
                 </select>
             </div>

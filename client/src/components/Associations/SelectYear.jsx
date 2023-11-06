@@ -63,7 +63,6 @@ export default function SelectYear() {
     },[data])
 
     useEffect(() => {
-        console.log(percentages)
 
         let pp =[['Procentages']]
         for(let i of percentages){
