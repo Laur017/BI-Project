@@ -11,7 +11,7 @@ function Sales() {
   const [traces, setTraces] = useState([]);
   const [data, setData] = useState([]);
   const [mediaLabel, setMediaLabel] = useState([])
-  const [totalSup, setTotalSup] = useState(false)
+  const [totalSup, setTotalSup] = useState(true)
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;

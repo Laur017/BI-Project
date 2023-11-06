@@ -132,6 +132,17 @@ span{
   color: #9E3845;
 }
 
+.pie-grid{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pie-grid img {
+  width: 3rem;
+  cursor: pointer;
+}
+
 /**
 *   Associations 
 **/
