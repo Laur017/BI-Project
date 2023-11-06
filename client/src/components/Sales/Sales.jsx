@@ -3,13 +3,15 @@
 import {useEffect, useState} from 'react'
 import transition from '../../transition'
 import Plot from 'react-plotly.js';
-import { genres } from '../../data'
+import Left from '../../assets/switch_l.png'
+import Rigth from '../../assets/switch_r.png'
 
 function Sales() {
   const [selectedValues, setSelectedValues] = useState([]);
   const [traces, setTraces] = useState([]);
   const [data, setData] = useState([]);
   const [mediaLabel, setMediaLabel] = useState([])
+  const [totalSup, setTotalSup] = useState(false)
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -24,18 +26,26 @@ function Sales() {
 
   useEffect(()=>{
 
-    fetch('http://127.0.0.1:8000/api/v1/music-sales-data/sales-evolution-based-on-quantities')
+    fetch(`${totalSup ?
+      'http://127.0.0.1:8000/api/v1/music-sales-data/sales-evolution-based-on-quantities':
+      'http://localhost:8000/api/v1/music-sales-data/sales-evolution-based-on-totals'
+    }`)
     .then(response => response.json())
     .then(data => setData(data))
     .catch(error => console.error(error));
 
+    console.log(data)
+    setSelectedValues([])
+    setTraces([])
 
-},[]) 
+},[totalSup]) 
   
     useEffect(() => {
 
-      const mlml = data.map((i,idx) => 
-    (
+      const mlml = data.map((i,idx) => {
+        console.log(selectedValues)
+        console.log(i.genre)
+      return (
         <label htmlFor={i.genre} key={idx}
         className={`label-sales ${selectedValues.includes(i.genre) ? 'checked-label' : ''}`}
       
@@ -43,31 +53,34 @@ function Sales() {
           <input type='checkbox' name={i.genre} onChange={handleCheckboxChange} className='input-sales' id={i.genre}/>
           {i.genre}
         </label>
-      )
+      )}
     )
 
-    setMediaLabel(mlml)
+    const half = Math.ceil(mlml.length / 2);    
+    const firstHalf = mlml.slice(0, half)
 
-    },[data])
+    setMediaLabel(firstHalf)
+
+    },[data, selectedValues])
 
   useEffect(() => {
     const selectedTraces = data
       .filter((genre) => selectedValues.includes(genre.genre))
       .map((genre) => ({
         x: genre.date,
-        y: genre.salles,
+        y: genre.sales,
         type: 'scatter',
         name: genre.genre,
       }));
 
     setTraces(selectedTraces);
-
+      // console.log(selectedValues)
   }, [selectedValues]);
 
 
   return (
     <div className='div-sales general-div'>
-      <h3>Select one/more genre to see the sales evolution</h3>
+      <h3>Select one/more genre to see the <span>{totalSup ? 'average' : 'total'} </span>sales evolution</h3>
       <div>
         <Plot data={traces} 
           layout = {{
@@ -79,6 +92,7 @@ function Sales() {
           {mediaLabel}
         </div>
       </div>
+      <h5>Change the type of supply needed :  Average <img src={totalSup ? Left : Rigth}  onClick={() => setTotalSup(!totalSup)}/> Total</h5>
     </div>
   );
 }
