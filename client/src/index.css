@@ -120,9 +120,9 @@ nav{
 .div-home{
   padding: 2rem;
   border-radius: 50px;
-  background: #99BF91;
-  box-shadow:  20px 20px 60px #82a27b,
-               -20px -20px 60px #b0dca7;
+  background: #e0e0e0;
+  box-shadow:  20px 20px 60px #bebebe,
+              -20px -20px 60px #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
