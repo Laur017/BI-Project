@@ -85,7 +85,7 @@ nav{
   letter-spacing: 2px;
   cursor: pointer;
   transition: all 0.3s ease-in;
-  border-bottom: 1px solid #99BF91;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .right-nav{

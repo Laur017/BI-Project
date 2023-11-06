@@ -74,7 +74,7 @@ function Predicting() {
             x: months2,
             y: sales2,
             type: "scatter",
-            name: `2013 - ${lastY}`,
+            name: `2014 - ${lastY}`,
           }
         ]} 
         layout = {{
