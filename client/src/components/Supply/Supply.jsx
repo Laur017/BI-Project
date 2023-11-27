@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import transition from '../../transition'
 import Plot from 'react-plotly.js'
-
+import Excel from '../../assets/excel.png'
 
 function Supply() {
   const [data,setData] = useState([])
@@ -53,7 +53,7 @@ function Supply() {
           paper_bgcolor:"rgba(0,0,0,0)"
         }}
         />
-      
+      <button className='excel-btn'>Excel Export <img src={Excel}/></button>
     </div>
   )
 }

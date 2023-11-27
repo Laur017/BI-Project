@@ -6,6 +6,7 @@ import Plot from 'react-plotly.js'
 import Refresh from '../../assets/refresh.png'
 import Left from '../../assets/switch_l.png'
 import Right from '../../assets/switch_r.png'
+import Excel from '../../assets/excel.png'
 
 export default function SelectYear() {
     const [showGraph, setShowGraph] = useState(false);
@@ -142,6 +143,7 @@ export default function SelectYear() {
                     
                     />
                 }
+                <button className='excel-btn'>Excel Export <img src={Excel}/></button>
 
             <div id="chart"></div>
         </div>

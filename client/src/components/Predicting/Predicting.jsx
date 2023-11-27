@@ -3,6 +3,7 @@
 import React from 'react'
 import transition from '../../transition'
 import Plot from 'react-plotly.js';
+import Excel from '../../assets/excel.png'
 import { useState, useEffect } from 'react';
 
 function Predicting() {
@@ -84,6 +85,7 @@ function Predicting() {
         }}
         />
       </div>
+      <button className='excel-btn'>Excel Export <img src={Excel}/></button>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import transition from '../../transition'
 import Plot from 'react-plotly.js';
 import Left from '../../assets/switch_l.png'
 import Rigth from '../../assets/switch_r.png'
+import Excel from '../../assets/excel.png'
 
 function Sales() {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -93,6 +94,9 @@ function Sales() {
         </div>
       </div>
       <h5>Change the type of supply needed :  Average <img src={totalSup ? Left : Rigth}  onClick={() => setTotalSup(!totalSup)}/> Total</h5>
+      {selectedValues &&
+        <button className='excel-btn'>Excel Export <img src={Excel}/></button>
+      }
     </div>
   );
 }

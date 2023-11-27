@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import {sales} from '../../data';
 import Plot from 'react-plotly.js';
+import Excel from '../../assets/excel.png'
 
 export default function SelectType() {
   const [showGraph, setShowGraph] = useState(false);
@@ -121,6 +122,9 @@ export default function SelectType() {
           height:500
         }}
         />
+        {selectedType &&
+          <button className='excel-btn'>Excel Export <img src={Excel}/></button>
+        }
         </div>
     </div>  
   )

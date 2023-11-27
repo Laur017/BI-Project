@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import Left from '../../assets/switch_l.png'
 import Right from '../../assets/switch_r.png'
+import Excel from '../../assets/excel.png'
 
 export default function SelectJob() {
     const [showGraph, setShowGraph] = useState(false);
@@ -134,8 +135,11 @@ export default function SelectJob() {
                     
                     />
                 }
-
+                {selectedJob &&
+                    <button className='excel-btn'>Excel Export <img src={Excel}/></button>
+                }
         </div>
+
     </div>
   )
 }

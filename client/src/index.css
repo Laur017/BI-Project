@@ -12,6 +12,34 @@ button{
   font-family: 'PT Sans', sans-serif;
 }
 
+.excel-btn{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  letter-spacing: 2px;
+  font-family: 'PT Sans', sans-serif;
+  padding: 0.5rem 2rem;
+  font-weight: bold;
+  color: white;
+  background-color: #1d6f42;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  box-shadow: 1px 1px 1px 1px #2323236f;
+}
+
+.excel-btn:hover {
+  background-color: #289c5c;
+  transition: all 0.3s ease-in;
+  box-shadow: none;
+}
+
+.excel-btn img {
+  width: 1.5rem !important;
+}
+
 /**
 *   Animations 
 **/
