@@ -2,8 +2,13 @@ from fastapi import APIRouter
 from constants import PREDICTIVE_ANALYSIS_CHART_OPTIONS
 import pandas as pd
 from pydantic import BaseModel
-from helpers import get_sales_data, get_genre_sales_data, get_sales_evolution_by_nr_sales_data, get_sales_evolution_by_total_sales_data
+from helpers import get_sales_data, get_genre_sales_data, get_sales_evolution_by_nr_sales_data, get_sales_evolution_by_total_sales_data, \
+                    sales_media_types_per_country
 import time
+import folium
+import webbrowser
+import geopandas as gpd 
+from io import StringIO
 
 class PredictiveRequest(BaseModel):
     dataset_name: str = 'total'
@@ -20,6 +25,9 @@ class Criteria(BaseModel):
 class DescriptiveRequest(BaseModel):
     dataset_name: str = 'total'
     criteria: list[Criteria]
+    
+class MapRequest(BaseModel):
+    criteria: str = 'mediatypesales'
     
     
 exports_router = APIRouter()
@@ -162,3 +170,41 @@ def execute_descriptive_analysis(request: DescriptiveRequest):
         raise e
     
     return DATA   
+
+
+
+@exports_router.post('/maps')
+def get_maps(request: MapRequest):
+    data = sales_media_types_per_country()
+
+    df = pd.DataFrame(data)
+    print(df)
+    # Sample GeoJSON data for world countries from geopandas
+    world_geojson = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres')).to_json()
+
+    # Create a Folium map
+    m = folium.Map(location=[0, 0], zoom_start=2)
+
+    # Iterate over rows and add choropleth layer for each media type
+    for index, row in df.iterrows():
+        # Create a GeoJSON layer
+        geojson_layer = folium.Choropleth(
+            geo_data=world_geojson,
+            name=row['media_type'],
+            data=dict(zip(row['countries'], row['sales'])),
+            columns=['countries', 'sales'],
+            key_on='feature.properties.iso_a3',  # Adjust this based on your GeoJSON properties
+            fill_color='YlGnBu',  # Choose a color palette
+            fill_opacity=0.7,
+            line_opacity=0.2,
+            legend_name=f'Sales intensity for {row["media_type"]}'
+        ).add_to(m)
+
+    # Add a Layer Control to toggle between different media types
+    folium.LayerControl().add_to(m)
+
+    
+    m.save('map.html')
+    webbrowser.open("map.html")
+    
+    return data

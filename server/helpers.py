@@ -115,3 +115,29 @@ def get_alpha_3_country_code(country_name):
         return None  
     
     
+def sales_media_types_per_country():
+    data = []
+    media_types_data = dict()
+    
+    try:
+        QUERY = f"SELECT * FROM COUNTRY_MEDIATYPE_SALES"
+        cursor = postgres_conn.cursor()
+        cursor.execute(query=QUERY)
+        
+        data = cursor.fetchall()
+        for record in data: 
+            if record[1] in media_types_data:
+                media_types_data[record[1]]['media_type'] = record[1]
+                media_types_data[record[1]]['countries'].append(get_alpha_3_country_code(record[0]))
+                media_types_data[record[1]]['sales'].append(record[2])
+            else: 
+                media_types_data[record[1]] = dict()
+                media_types_data[record[1]]['countries']=[get_alpha_3_country_code(record[0])]
+                media_types_data[record[1]]['sales']=[record[2]]
+             
+    except Exception as e:
+        print('error, details: ' + str(e))
+    finally:
+        cursor.close()
+        
+    return [value for _, value in media_types_data.items()]
