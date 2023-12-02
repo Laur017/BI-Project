@@ -3,7 +3,7 @@ from setup import postgres_conn
 import pandas as pd
 import xlsxwriter as excel
 from pydantic import BaseModel
-from presentation_router import get_sales_data, get_genre_sales_data
+from helpers import get_sales_data, get_genre_sales_data
 import time
 
 
@@ -63,6 +63,17 @@ class PredictiveRequest(BaseModel):
     type_of_predict: str = 'linear'
     nr_years_to_predict: int = 1
     poly_order: int  = 2
+
+class Criteria(BaseModel):
+    field: str 
+    sign: str 
+    value: int 
+    color: str
+    
+class DescriptiveRequest(BaseModel):
+    dataset_name: str = 'total'
+    criteria: list[Criteria]
+    
     
 
 exports_router = APIRouter()
@@ -163,3 +174,11 @@ def execute_predictive_analysis(request: PredictiveRequest):
         raise e
     
     return DATA
+
+
+@exports_router.post('/descriptive')
+def execute_descriptive_analysis(request: DescriptiveRequest): 
+    return request
+
+
+
