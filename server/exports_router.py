@@ -1,62 +1,9 @@
 from fastapi import APIRouter
-from setup import postgres_conn
+from constants import PREDICTIVE_ANALYSIS_CHART_OPTIONS
 import pandas as pd
-import xlsxwriter as excel
 from pydantic import BaseModel
 from helpers import get_sales_data, get_genre_sales_data
 import time
-
-
-predictive_analysis_chart_options = {
-    'linear':{
-        'type': 'linear', 'display_r_squared': True, 'display_equation': True, 
-         'line':{
-             'color': 'red',
-             'width': 2,
-             'dash_type': 'long_dash'
-         }
-    },
-    'log':{
-        'type': 'log', 'display_r_squared': True, 'display_equation': True,
-         'line':{
-             'color': 'red',
-             'width': 2,
-             'dash_type': 'long_dash'
-         }
-    },
-    'polynomial':
-        { 'type': 'polynomial',
-           'order': 2,
-           'display_r_squared': True,
-           'display_equation': True,
-            'line':{
-             'color': 'red',
-             'width': 2,
-             'dash_type': 'long_dash'
-         }
-        },
-    'exponential':{
-         'type': 'exponential',
-         'display_r_squared': True, 
-         'display_equation': True,
-          'line':{
-             'color': 'red',
-             'width': 2,
-             'dash_type': 'long_dash'
-         }
-    },
-    'power':{
-         'type': 'power',
-         'display_r_squared': True, 
-         'display_equation': True,
-          'line':{
-             'color': 'red',
-             'width': 2,
-             'dash_type': 'long_dash'
-         }
-    }   
-}
-
 
 class PredictiveRequest(BaseModel):
     dataset_name: str = 'total'
@@ -75,7 +22,6 @@ class DescriptiveRequest(BaseModel):
     criteria: list[Criteria]
     
     
-
 exports_router = APIRouter()
 
 
@@ -113,19 +59,19 @@ def execute_predictive_analysis(request: PredictiveRequest):
                 
                 chart = workbook.add_chart({'type': 'line', 'name': f'Trend {genre}'})
                 
-                predictive_analysis_chart_options[request.type_of_predict].update(dict({'forward': int(request.nr_years_to_predict) * 365}))
+                PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict].update(dict({'forward': int(request.nr_years_to_predict) * 365}))
         
             
                 if request.type_of_predict == 'poly':
-                    predictive_analysis_chart_options[request.type_of_predict].update(dict({'order': request.poly_order}))
+                    PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict].update(dict({'order': request.poly_order}))
                 
-                print('Type requested', predictive_analysis_chart_options[request.type_of_predict])
+                print('Type requested', PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict])
                 
                 chart.add_series({
                     'name': f'Series',
                     'categories':f'={genre}!$B$2:$B${nr_records + 1}',
                     'values': f'={genre}!$C$2:$C${nr_records + 1}',
-                    'trendline': predictive_analysis_chart_options[request.type_of_predict]
+                    'trendline': PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict]
                 })
                 
                 worksheet.insert_chart('G4', chart)
@@ -147,19 +93,19 @@ def execute_predictive_analysis(request: PredictiveRequest):
             worksheet = excel_writer.sheets['DataAnalysis']
             
             chart = workbook.add_chart({'type': 'line', 'name': f'Trend {request.type_of_predict}'})
-            predictive_analysis_chart_options[request.type_of_predict].update(dict({'forward': int(request.nr_years_to_predict) * 365}))
+            PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict].update(dict({'forward': int(request.nr_years_to_predict) * 365}))
         
             
             if request.type_of_predict == 'poly':
-                predictive_analysis_chart_options[request.type_of_predict].update(dict({'order': request.poly_order}))
+                PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict].update(dict({'order': request.poly_order}))
             
-            print('Type requested', predictive_analysis_chart_options[request.type_of_predict])
+            print('Type requested', PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict])
             
             chart.add_series({
                 'name': f'Series',
                 'categories':f'=DataAnalysis!$B$2:$B${nr_records + 1}',
                 'values': f'=DataAnalysis!$C$2:$C${nr_records + 1}',
-                'trendline': predictive_analysis_chart_options[request.type_of_predict]
+                'trendline': PREDICTIVE_ANALYSIS_CHART_OPTIONS[request.type_of_predict]
             })
             
             worksheet.insert_chart('G4', chart)

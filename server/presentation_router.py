@@ -1,8 +1,6 @@
-# presentation_routers/todos.py
 from fastapi import APIRouter
 from helpers import get_alpha_3_country_code, get_sales_data, prophet_prediction
 from setup import postgres_conn
-import pandas as pd
 
 presentation_router = APIRouter()
 
@@ -24,7 +22,6 @@ async def get_all_customers():
         cursor.close()
         
     return data
-
 
 # -----  serve point 1 of HW1
 
@@ -174,20 +171,12 @@ async def get_average_per_mediatypes_based_on_past_months_data():
         
     return [value for _, value in media_types_data.items()]
 
-
 @presentation_router.get("/predict-sales-evolution")
 async def predict_sales_evolution(nr_years):
     data= get_sales_data()
     return prophet_prediction(data=data, nr_of_years_to_predict=int(nr_years))
 
-
-
 @presentation_router.get("/sales-evolution")
 async def get_sales_evolution_per_month():
     data= get_sales_data()
     return data
-
-
-
-
-    
