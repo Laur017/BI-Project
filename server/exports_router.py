@@ -4,27 +4,57 @@ import pandas as pd
 import xlsxwriter as excel
 from pydantic import BaseModel
 from presentation_router import get_sales_data, get_genre_sales_data
+import time
 
-PREDICTIVE_ANALYSIS_EXCEL_NAME = 'sales_predictive_analysis.xlsx'
+
 predictive_analysis_chart_options = {
     'linear':{
-        'type': 'linear', 'display_r_squared': True, 'display_equation': True
+        'type': 'linear', 'display_r_squared': True, 'display_equation': True, 
+         'line':{
+             'color': 'red',
+             'width': 2,
+             'dash_type': 'long_dash'
+         }
     },
     'log':{
-        'type': 'log', 'display_r_squared': True, 'display_equation': True
+        'type': 'log', 'display_r_squared': True, 'display_equation': True,
+         'line':{
+             'color': 'red',
+             'width': 2,
+             'dash_type': 'long_dash'
+         }
     },
-    'poly':
+    'polynomial':
         { 'type': 'polynomial',
            'order': 2,
            'display_r_squared': True,
-           'display_equation': True
+           'display_equation': True,
+            'line':{
+             'color': 'red',
+             'width': 2,
+             'dash_type': 'long_dash'
+         }
         },
     'exponential':{
          'type': 'exponential',
          'display_r_squared': True, 
-         'display_equation': True
-    }
-    
+         'display_equation': True,
+          'line':{
+             'color': 'red',
+             'width': 2,
+             'dash_type': 'long_dash'
+         }
+    },
+    'power':{
+         'type': 'power',
+         'display_r_squared': True, 
+         'display_equation': True,
+          'line':{
+             'color': 'red',
+             'width': 2,
+             'dash_type': 'long_dash'
+         }
+    }   
 }
 
 
@@ -43,6 +73,7 @@ def execute_predictive_analysis(request: PredictiveRequest):
     #create the excel file
     
     try:
+        PREDICTIVE_ANALYSIS_EXCEL_NAME = 'sales_predictive_analysis_' + str(int(time.time()*1000)) + '.xlsx'
         excel_writer = pd.ExcelWriter(PREDICTIVE_ANALYSIS_EXCEL_NAME, engine='xlsxwriter')
 
         #create the worksheet
@@ -62,7 +93,7 @@ def execute_predictive_analysis(request: PredictiveRequest):
         workbook = excel_writer.book 
         worksheet = excel_writer.sheets['DataAnalysis']
         
-        chart = workbook.add_chart({'type': 'line'})
+        chart = workbook.add_chart({'type': 'line', 'name': f'Trend {request.type_of_predict}'})
         predictive_analysis_chart_options[request.type_of_predict].update(dict({'forward': int(request.nr_years_to_predict) * 365}))
        
         
@@ -72,7 +103,7 @@ def execute_predictive_analysis(request: PredictiveRequest):
         print('Type requested', predictive_analysis_chart_options[request.type_of_predict])
         
         chart.add_series({
-            'name': f'Trend {request.type_of_predict}',
+            'name': f'Series',
             'categories':f'=DataAnalysis!$B$2:$B${nr_records}',
             'values': f'=DataAnalysis!$C$2:$C${nr_records}',
             'trendline': predictive_analysis_chart_options[request.type_of_predict]
