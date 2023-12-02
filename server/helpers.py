@@ -3,6 +3,43 @@ from setup import postgres_conn
 from prophet import Prophet
 from matplotlib import pyplot
 
+def get_sales_evolution_by_total_sales_data():
+    data = []
+    try:
+        QUERY = "SELECT * FROM SALES_EVOLUTION_BASED_ON_TOTAL_SALES"
+        cursor = postgres_conn.cursor()
+        cursor.execute(query=QUERY)
+        
+        data = cursor.fetchall()
+        
+        data = [{"genre": record[0], "year": int(record[1]), "sales": int(record[2])} for record in data]
+        
+    except Exception as e:
+        print('error, details: ' + str(e))
+    finally:
+        cursor.close()
+        
+    return data
+
+def get_sales_evolution_by_nr_sales_data():
+    data = []
+    try:
+        QUERY = "SELECT * FROM SALES_EVOLUTION_BASED_ON_NR_SALES"
+        cursor = postgres_conn.cursor()
+        cursor.execute(query=QUERY)
+        
+        data = cursor.fetchall()
+        
+        data = [{"genre": record[0], "year": int(record[1]), "nr_sales": int(record[2])} for record in data]
+        
+    except Exception as e:
+        print('error, details: ' + str(e))
+    finally:
+        cursor.close()
+        
+    return data
+
+
 def get_sales_data():
     data = []
     try:

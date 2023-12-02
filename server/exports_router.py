@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from constants import PREDICTIVE_ANALYSIS_CHART_OPTIONS
 import pandas as pd
 from pydantic import BaseModel
-from helpers import get_sales_data, get_genre_sales_data
+from helpers import get_sales_data, get_genre_sales_data, get_sales_evolution_by_nr_sales_data, get_sales_evolution_by_total_sales_data
 import time
 
 class PredictiveRequest(BaseModel):
@@ -109,12 +109,9 @@ def execute_predictive_analysis(request: PredictiveRequest):
             })
             
             worksheet.insert_chart('G4', chart)
-            
-            
-        
-        excel_writer.close()
     
-
+        excel_writer.close()
+        
     except Exception as e:
         print('errors details: ' + str(e))
         raise e
@@ -124,7 +121,44 @@ def execute_predictive_analysis(request: PredictiveRequest):
 
 @exports_router.post('/descriptive')
 def execute_descriptive_analysis(request: DescriptiveRequest): 
-    return request
-
-
-
+    # extract data 
+    try:
+        DESCRIPTIVE_ANALYSIS_EXCEL_NAME = 'sales_evolution_descriptive_analysis_' + str(int(time.time()*1000)) + '.xlsx'
+        excel_writer = pd.ExcelWriter(DESCRIPTIVE_ANALYSIS_EXCEL_NAME, engine='xlsxwriter')
+    
+        DATA = None 
+        
+        if request.dataset_name == 'nrsales':
+            DATA = get_sales_evolution_by_nr_sales_data()
+        else: 
+            DATA = get_sales_evolution_by_total_sales_data()
+        
+        # write data 
+        df = pd.DataFrame(DATA)
+            
+        df.to_excel(excel_writer, sheet_name='DataAnalysis')    
+        nr_records = len(df.index)
+        
+        workbook = excel_writer.book 
+        worksheet = excel_writer.sheets['DataAnalysis']
+        
+        for criteria in request.criteria:
+            worksheet.conditional_format(
+                f'D2:D{nr_records+1}',
+                {
+                    'type': 'cell',
+                    'criteria': f'{criteria.sign}',
+                    'value': criteria.value,
+                    'format': workbook.add_format({
+                        'bg_color': f'{criteria.color}'
+                    })
+                }
+            )
+            
+        excel_writer.close()
+        
+    except Exception as e:
+        print('errors details: ' + str(e))
+        raise e
+    
+    return DATA   
