@@ -1,4 +1,4 @@
-# routers/todos.py
+# presentation_routers/todos.py
 from fastapi import APIRouter
 from setup import postgres_conn
 import pycountry
@@ -8,7 +8,7 @@ from prophet import Prophet
 from matplotlib import pyplot
 
 
-router = APIRouter()
+presentation_router = APIRouter()
 
 
 def get_alpha_3_country_code(country_name):
@@ -28,7 +28,7 @@ def get_sales_data():
         
         data = cursor.fetchall()
         
-        data = [{"date": record[0], "total": record[1]} for record in data]
+        data = [{"date": record[0], "total": int(record[1])} for record in data]
         
     except Exception as e:
         print('error, details: ' + str(e))
@@ -36,6 +36,26 @@ def get_sales_data():
         cursor.close()
         
     return data
+
+def get_genre_sales_data():
+    data = []
+    try:
+        QUERY = "SELECT * FROM GENRE_SALES_PER_DATE"
+        cursor = postgres_conn.cursor()
+        cursor.execute(query=QUERY)
+        
+        data = cursor.fetchall()
+        
+        data = [{"genre": record[0], "date": record[1], "total": int(record[2])} for record in data]
+        
+    except Exception as e:
+        print('error, details: ' + str(e))
+    finally:
+        cursor.close()
+        
+    return data
+
+
 
 def prophet_prediction(data, nr_of_years_to_predict):
     # prophet dataset preparation
@@ -73,7 +93,7 @@ def prophet_prediction(data, nr_of_years_to_predict):
     
 
 
-@router.get("/", response_model=list)
+@presentation_router.get("/", response_model=list)
 async def get_all_customers():
     data = []
     try:
@@ -96,7 +116,7 @@ async def get_all_customers():
 # -----  serve point 1 of HW1
 
 # 1.a.b
-@router.get("/customers-music-associations")
+@presentation_router.get("/customers-music-associations")
 async def get_customer_music_associations_data(lower_age: int=20, upper_age: int=80):
     data = []
     if lower_age > upper_age:
@@ -119,7 +139,7 @@ async def get_customer_music_associations_data(lower_age: int=20, upper_age: int
     return data
     
 # 1.c.
-@router.get("/country-musictypes-sales")
+@presentation_router.get("/country-musictypes-sales")
 async def get_country_music_types_sales_data():
     data = []
     media_types_data = dict()
@@ -151,7 +171,7 @@ async def get_country_music_types_sales_data():
 # -----  serve point 2 of HW1
 
 # 2.a sales evolution based on quantity sold per each genre
-@router.get("/sales-evolution-based-on-quantities")
+@presentation_router.get("/sales-evolution-based-on-quantities")
 async def get_sales_evolution_based_on_quantites_sold_data():
     data = []
     genre_data = dict()
@@ -181,7 +201,7 @@ async def get_sales_evolution_based_on_quantites_sold_data():
 
 
 # 2.b sales evolution based on total money got per each genre
-@router.get("/sales-evolution-based-on-totals")
+@presentation_router.get("/sales-evolution-based-on-totals")
 async def get_sales_evolution_based_on_totals_data():
     data = []
     genre_data = dict()
@@ -212,7 +232,7 @@ async def get_sales_evolution_based_on_totals_data():
 
 # -----  serve point 3 of HW1
 
-@router.get("/average-per-mediatype-based-on-past-months")
+@presentation_router.get("/average-per-mediatype-based-on-past-months")
 async def get_average_per_mediatypes_based_on_past_months_data():
     data = []
     media_types_data = dict()
@@ -242,14 +262,14 @@ async def get_average_per_mediatypes_based_on_past_months_data():
     return [value for _, value in media_types_data.items()]
 
 
-@router.get("/predict-sales-evolution")
+@presentation_router.get("/predict-sales-evolution")
 async def predict_sales_evolution(nr_years):
     data= get_sales_data()
     return prophet_prediction(data=data, nr_of_years_to_predict=int(nr_years))
 
 
 
-@router.get("/sales-evolution")
+@presentation_router.get("/sales-evolution")
 async def get_sales_evolution_per_month():
     data= get_sales_data()
     return data
