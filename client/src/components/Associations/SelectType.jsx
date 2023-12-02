@@ -2,10 +2,11 @@
 import { useState, useEffect } from 'react';
 import {sales} from '../../data';
 import Plot from 'react-plotly.js';
+import Excel from '../../assets/excel.png'
 
 export default function SelectType() {
   const [showGraph, setShowGraph] = useState(false);
-    const [selectedType, setSelectedType] = useState('CD');
+    const [selectedType, setSelectedType] = useState('');
     const [percentages, setPercentages] = useState();
     const [salesValue, setSalesValue] = useState();
     const [maxValue, setMaxValue] = useState();
@@ -80,7 +81,7 @@ export default function SelectType() {
             <div>
                 <h4>Select media type: </h4>
                 <select className='select-job'>
-                    
+                  <option>Select</option>
                     {mediaT && options}
                 </select>
             </div>
@@ -121,6 +122,9 @@ export default function SelectType() {
           height:500
         }}
         />
+        {selectedType &&
+          <button className='excel-btn'>Excel Export <img src={Excel}/></button>
+        }
         </div>
     </div>  
   )

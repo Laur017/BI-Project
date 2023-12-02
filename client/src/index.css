@@ -12,6 +12,34 @@ button{
   font-family: 'PT Sans', sans-serif;
 }
 
+.excel-btn{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  letter-spacing: 2px;
+  font-family: 'PT Sans', sans-serif;
+  padding: 0.5rem 2rem;
+  font-weight: bold;
+  color: white;
+  background-color: #1d6f42;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  box-shadow: 1px 1px 1px 1px #2323236f;
+}
+
+.excel-btn:hover {
+  background-color: #289c5c;
+  transition: all 0.3s ease-in;
+  box-shadow: none;
+}
+
+.excel-btn img {
+  width: 1.5rem !important;
+}
+
 /**
 *   Animations 
 **/
@@ -85,7 +113,7 @@ nav{
   letter-spacing: 2px;
   cursor: pointer;
   transition: all 0.3s ease-in;
-  border-bottom: 1px solid #99BF91;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .right-nav{
@@ -120,9 +148,9 @@ nav{
 .div-home{
   padding: 2rem;
   border-radius: 50px;
-  background: #99BF91;
-  box-shadow:  20px 20px 60px #82a27b,
-               -20px -20px 60px #b0dca7;
+  background: #e0e0e0;
+  box-shadow:  20px 20px 60px #bebebe,
+              -20px -20px 60px #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -130,6 +158,17 @@ nav{
 }
 span{
   color: #9E3845;
+}
+
+.pie-grid{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pie-grid img {
+  width: 3rem;
+  cursor: pointer;
 }
 
 /**
@@ -223,7 +262,7 @@ span{
 .div-sales{
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: auto;
   align-items: center;
   justify-content: center;
   gap: 1rem;
@@ -236,9 +275,9 @@ span{
 }
 
 .checkbox-div-sales{
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
 }
 
 .checked-label {
@@ -266,6 +305,17 @@ span{
   transition: all 0.5s ease-in;
 }
 
+.div-sales img {
+  width: 3rem;
+  cursor: pointer;
+}
+
+.div-sales h5 {
+  display: flex;
+  align-items: center; 
+  gap: 1rem;
+}
+
 /**
 *   Supply
 **/
@@ -274,4 +324,65 @@ span{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+
+
+/**
+*   Predicting
+**/
+
+.div-predicting{
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.div-range{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.div-range h4 {
+  margin-bottom: 0;
+}
+
+.div-plot-pred {
+  display: flex;
+  align-items: center;
+}
+
+.div-plot-pred > h5{
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  margin: 0;
+}
+
+/*
+* Range css
+*/
+
+.button-30 {
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  padding: 0.5rem 2rem;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-30:hover{
+  background-color: rgba(0,0,0,0);
+  border: 2px solid white;
+  transition: all 0.3s ease-in;
+  box-shadow: none;
 }

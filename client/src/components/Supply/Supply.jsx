@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import transition from '../../transition'
 import Plot from 'react-plotly.js'
-import {media} from '../../data'
+import Excel from '../../assets/excel.png'
 
 function Supply() {
   const [data,setData] = useState([])
@@ -11,9 +11,12 @@ function Supply() {
 
 
 
+
   useEffect(()=>{
 
-    fetch('http://127.0.0.1:8000/api/v1/music-sales-data/average-per-mediatype-based-on-past-months')
+    fetch(
+      'http://127.0.0.1:8000/api/v1/music-sales-data/average-per-mediatype-based-on-past-months'
+      )
     .then(response => response.json())
     .then(data => setData(data))
     .catch(error => console.error(error));
@@ -50,6 +53,7 @@ function Supply() {
           paper_bgcolor:"rgba(0,0,0,0)"
         }}
         />
+      <button className='excel-btn'>Excel Export <img src={Excel}/></button>
     </div>
   )
 }
