@@ -5,6 +5,8 @@ import pycountry
 import pandas as pd
 
 from prophet import Prophet 
+from matplotlib import pyplot
+
 
 router = APIRouter()
 
@@ -49,12 +51,16 @@ def prophet_prediction(data, nr_of_years_to_predict):
     
     forecast = model.predict(future)
     
+    model.plot(forecast)
+    pyplot.show()
     
     # print(df)
     
     # print(forecast.loc[forecast['ds'].dt.year >= 2014])
     forecast=forecast.loc[forecast['ds'].dt.year >= 2014]
     forecast['ds'] = forecast['ds'].dt.date
+    
+    
     
     forecast = forecast[['ds', 'yhat']] 
     result = forecast[['ds', 'yhat']].values.tolist()
