@@ -46,7 +46,7 @@ def get_genre_sales_data():
         
         data = cursor.fetchall()
         
-        data = [{"genre": record[0], "date": record[1], "total": int(record[2])} for record in data]
+        data = [{"genre": record[0].replace('/', '').replace(' ', ''), "date": record[1], "total": int(record[2])} for record in data ]
         
     except Exception as e:
         print('error, details: ' + str(e))
