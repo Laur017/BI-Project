@@ -1,6 +1,7 @@
 import Plot from "react-plotly.js"
 import { useState, useEffect } from "react";
 import Excel from '../../assets/excel.png'
+import axios from "axios";
 
 export default function Maps() {
     const [salesValue, setSalesValue] = useState();
@@ -34,6 +35,10 @@ export default function Maps() {
 
   },[data])
 
+  const handleClick = () =>{
+    axios.post('http://localhost:8000/api/v1/exports/maps',{criteria:"mediatypesales"})
+  }
+
   return (
     <div className="maps-div general-div">
       <h3>Maps</h3>
@@ -50,13 +55,13 @@ export default function Maps() {
               </option>
             </select>
           </label>
-          <h5>
+          {/* <h5>
             Minimum
             <input type="number"/>
             -
             <input type="number"/>
             Maximum
-          </h5>
+          </h5> */}
         </div>
        <Plot 
           data = {[{
@@ -95,7 +100,7 @@ export default function Maps() {
         }}
         />
         </div>
-        <button className='excel-btn'>Excel Export <img src={Excel}/></button>
+        <button className='excel-btn' onClick={handleClick}>Excel Export <img src={Excel}/></button>
     </div>
   )
 }

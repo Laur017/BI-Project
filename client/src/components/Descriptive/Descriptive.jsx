@@ -95,7 +95,7 @@ export default function Descriptive() {
       
       <h5>Criteria of analysis :</h5>
       <div className="descriptive-criteria">
-        {/* <div className="des-1">
+        <div className="des-1">
           <h3>Sales {">"} </h3>
           <input type="number"></input>
           <img src={Green} />
@@ -109,14 +109,14 @@ export default function Descriptive() {
           <h3>Sales {"<"}</h3>
           <input type="number"></input>
           <img src={Red} />
-        </div> */}
-        <div className="des-1">
+        </div>
+        {/* <div className="des-1">
           <img src={Red} />
           <input type="number" />
           <img src={Yellow} />
           <input type="number" />
           <img src={Green} />
-        </div>
+        </div> */}
         
       </div>
       
