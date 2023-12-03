@@ -7,7 +7,6 @@ import Excel from '../../assets/excel.png'
 export default function SelectType() {
   const [showGraph, setShowGraph] = useState(false);
     const [selectedType, setSelectedType] = useState('');
-    const [percentages, setPercentages] = useState();
     const [salesValue, setSalesValue] = useState();
     const [maxValue, setMaxValue] = useState();
     const [data, setData] = useState([]);
@@ -15,8 +14,6 @@ export default function SelectType() {
     const [countries, setCountries] = useState([])
     const [options, setOptions] = useState()
 
-    let n;
-    // const countries = sales[0].country;
     let bulletSize = new Array(countries.length).fill(30);   
 
     let mediaType;

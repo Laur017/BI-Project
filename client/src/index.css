@@ -481,8 +481,50 @@ span{
 
 }
 
-.red {
-  width: 5rem !important;
-  height: 5rem !important;
-  background-color: red !important;
+
+/**
+*   Maps
+**/
+
+.maps-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div{
+    display: flex;
+    align-items: center;
+
+    .cr-maps{
+      display: flex;
+      flex-direction: column;
+
+      h5{
+        display: flex;
+        gap: 0.5rem;
+
+        input{
+          background-color: transparent;
+          border: none;
+          width: 5rem;
+          border-bottom: 1px solid #1d6f42;
+        }
+      }
+
+      label{
+        display: flex;
+        gap: 1rem;
+
+        select{
+          background-color: transparent;
+          border: none;
+          border-bottom: 1px solid #1d6f42;
+          letter-spacing: 1px;
+          width: 10rem;
+        }
+      }
+    }
+  }
 }
+
+
