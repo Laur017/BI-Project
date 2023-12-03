@@ -386,3 +386,145 @@ span{
   transition: all 0.3s ease-in;
   box-shadow: none;
 }
+
+/**
+*   Predictive Sales
+**/
+
+.predictive-div{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  h2{
+    margin: 0;
+  }
+}
+
+.left-predictive-div{
+  display: flex;
+  flex-direction:column ;
+  gap: 3rem;
+
+  label{
+    display: flex;
+    gap: 1rem;
+  }
+
+  select{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #1d6f42;
+    letter-spacing: 1px;
+    width: 7rem;
+    cursor: pointer;
+  }
+
+  input{
+    background-color: transparent;
+    border: none;
+    width: 5rem;
+    border-bottom: 1px solid #1d6f42;
+  }
+}
+
+.med-part-predictive{
+  display: flex;
+  align-items: center;
+}
+
+.right-predictive-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p{
+    margin: 0;
+    margin-bottom: 5rem;
+    color: rgb(89, 88, 88);
+  }
+}
+
+/**
+*   Descriptive analytics
+**/
+
+.descriptive-criteria{
+  display: flex;
+  flex-direction: column;
+
+  div{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  img{
+    width: 2rem;
+  }
+}
+
+.des-1{
+
+  margin-bottom: 4rem;
+  border: 2px solid #1d6f42;
+  padding: 0.5rem 3rem;
+  border-radius: 5px;
+
+  input{
+    background-color: transparent;
+    border: none;
+    width: 5rem;
+    border-bottom: 1px solid #1d6f42;
+  }
+
+}
+
+
+/**
+*   Maps
+**/
+
+.maps-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div{
+    display: flex;
+    align-items: center;
+
+    .cr-maps{
+      display: flex;
+      flex-direction: column;
+
+      h5{
+        display: flex;
+        gap: 0.5rem;
+
+        input{
+          background-color: transparent;
+          border: none;
+          width: 5rem;
+          border-bottom: 1px solid #1d6f42;
+        }
+      }
+
+      label{
+        display: flex;
+        gap: 1rem;
+
+        select{
+          background-color: transparent;
+          border: none;
+          border-bottom: 1px solid #1d6f42;
+          letter-spacing: 1px;
+          width: 10rem;
+        }
+      }
+    }
+  }
+}
+
+

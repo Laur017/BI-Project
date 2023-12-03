@@ -9,6 +9,9 @@ import Predicting from './components/Predicting/Predicting'
 import Future from './components/Future/Future'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import Descriptive from './components/Descriptive/Descriptive'
+import Predictive from './components/Predictive/Predictive'
+import Maps from './components/Maps/Maps'
 
 
 function App() {
@@ -25,6 +28,9 @@ function App() {
         <Route path='/supply' element={<Supply />} />
         <Route path='/predicting' element={<Predicting />} />
         <Route path='/future' element={<Future />} />
+        <Route path='/descriptive' element={<Descriptive />} />
+        <Route path='/predictive' element={<Predictive />} />
+        <Route path='/maps' element={<Maps />} />
       </Routes>
       </AnimatePresence>
     </div>
