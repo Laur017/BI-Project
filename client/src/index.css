@@ -467,16 +467,23 @@ span{
 
 .des-1{
 
-  margin-bottom: 4rem;
-  border: 2px solid #1d6f42;
-  padding: 0.5rem 3rem;
-  border-radius: 5px;
+  /* margin-bottom: 4rem;
+  /* border: 2px solid #1d6f42; */
+  /* padding: 0.5rem 3rem; */
+  /* border-radius: 5px; */
 
   input{
     background-color: transparent;
     border: none;
     width: 5rem;
     border-bottom: 1px solid #1d6f42;
+  }
+
+  input[type="color"]{
+    border: none;
+    width: 5rem !important;
+    border-radius: 50%;
+    -webkit-appearance: none;
   }
 
 }

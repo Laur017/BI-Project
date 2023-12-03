@@ -3,9 +3,7 @@ import Plot from "react-plotly.js";
 import Left from '../../assets/switch_l.png'
 import Rigth from '../../assets/switch_r.png'
 import Excel from '../../assets/excel.png'
-import Red from '../../assets/r.png'
-import Yellow from '../../assets/y.png'
-import Green from '../../assets/g.png'
+import axios from "axios";
 
 export default function Descriptive() {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -13,6 +11,12 @@ export default function Descriptive() {
   const [data, setData] = useState([]);
   const [mediaLabel, setMediaLabel] = useState([])
   const [totalSup, setTotalSup] = useState(true)
+  const [firstColor, setFirstColor] = useState("#ff5a5f")
+  const [secondColor, setSecondColor] = useState("#efbf38")
+  const [thirdColor, setThirdColor] = useState("#a9ba9d")
+  const[first, setFirst] = useState(1)
+  const[second, setSecond] = useState(10)
+  const[third, setThird] = useState(20)
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -75,8 +79,32 @@ export default function Descriptive() {
       }));
 
     setTraces(selectedTraces);
-      // console.log(selectedValues)
   }, [selectedValues]);
+
+  const handleClick = () =>{
+
+    axios.post('http://localhost:8000/api/v1/exports/descriptive',{dataset_name:totalSup ? "nrsales" : "total", criteria:[
+      {
+        field:"string",
+        sign:">",
+        value:first,
+        color:firstColor
+      },
+      {
+        field:"string",
+        sign:"=",
+        value:second,
+        color:secondColor
+      },
+      {
+        field:"string",
+        sign:"<",
+        value:third,
+        color:thirdColor
+      },
+  ]})
+  }
+
   return (
     <div className="descriptive-div general-div div-sales">
       <h3>Descriptive analytics</h3>
@@ -97,32 +125,23 @@ export default function Descriptive() {
       <div className="descriptive-criteria">
         <div className="des-1">
           <h3>Sales {">"} </h3>
-          <input type="number"></input>
-          <img src={Green} />
+          <input type="number" value={first} onChange={(e)=> setFirst(parseInt(e.target.value))}></input>
+           <input type="color" value={firstColor} onChange={(e) => setFirstColor(e.target.value)}/>
         </div>
         <div className="des-1">
           <h3>Sales {"="}</h3>
-          <input type="number"></input>
-          <img src={Yellow} />
+          <input type="number" value={second} onChange={(e)=> setSecond(parseInt(e.target.value))}></input>
+          <input type="color" value={secondColor} onChange={(e) => setSecondColor(e.target.value)}/>
         </div>
         <div className="des-1">
           <h3>Sales {"<"}</h3>
-          <input type="number"></input>
-          <img src={Red} />
+          <input type="number" value={third} onChange={(e)=> setThird(parseInt(e.target.value))}></input>
+          <input type="color" value={thirdColor} onChange={(e) => setThirdColor(e.target.value)}/>
         </div>
-        {/* <div className="des-1">
-          <img src={Red} />
-          <input type="number" />
-          <img src={Yellow} />
-          <input type="number" />
-          <img src={Green} />
-        </div> */}
         
       </div>
-      
-      {selectedValues &&
-        <button className='excel-btn'>Excel Export <img src={Excel}/></button>
-      }
+
+        <button className='excel-btn' onClick={handleClick}>Excel Export <img src={Excel}/></button>
 
     </div>
   )
