@@ -15,6 +15,9 @@ export default function Navbar() {
             <Link to="/sales"><button>Sales Evolution</button></Link>
             <Link to="/supply"><button>Supply</button></Link>
             <Link to="/predicting"><button>Predicting</button></Link>
+            <Link to="/predictive"><button>Predictive </button></Link>
+            <Link to="/descriptive"><button>Descriptive</button></Link>
+            <Link to="/maps"><button>Maps</button></Link>
             {/* <Link to="/future"><button>Future Evolution</button></Link> */}
         </div>
     </nav>
