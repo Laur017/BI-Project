@@ -445,3 +445,44 @@ span{
     color: rgb(89, 88, 88);
   }
 }
+
+/**
+*   Descriptive analytics
+**/
+
+.descriptive-criteria{
+  display: flex;
+  flex-direction: column;
+
+  div{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  img{
+    width: 2rem;
+  }
+}
+
+.des-1{
+
+  margin-bottom: 4rem;
+  border: 2px solid #1d6f42;
+  padding: 0.5rem 3rem;
+  border-radius: 5px;
+
+  input{
+    background-color: transparent;
+    border: none;
+    width: 5rem;
+    border-bottom: 1px solid #1d6f42;
+  }
+
+}
+
+.red {
+  width: 5rem !important;
+  height: 5rem !important;
+  background-color: red !important;
+}
