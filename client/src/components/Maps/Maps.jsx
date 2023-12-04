@@ -1,6 +1,6 @@
 import Plot from "react-plotly.js"
 import { useState, useEffect } from "react";
-import Excel from '../../assets/excel.png'
+import Excel from '../../assets/map.png'
 import axios from "axios";
 
 export default function Maps() {
@@ -100,7 +100,7 @@ export default function Maps() {
         }}
         />
         </div>
-        <button className='excel-btn' onClick={handleClick}>Excel Export <img src={Excel}/></button>
+        <button className='excel-btn' onClick={handleClick}>Generate map <img src={Excel}/></button>
     </div>
   )
 }

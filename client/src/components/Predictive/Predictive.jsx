@@ -27,6 +27,8 @@ export default function Predictive() {
 
   useEffect(() => {
 
+    console.log(data)
+
     const res = data.map(i => (
       {
         type:'bar', 
@@ -39,6 +41,10 @@ export default function Predictive() {
     setResFinal(res)
 
   },[data])
+
+  useEffect(()=>{
+    console.log(resFinal)
+  },[resFinal])
 
   const handleClick = () =>{
     console.log(dataset)

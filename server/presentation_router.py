@@ -144,7 +144,33 @@ async def get_sales_evolution_based_on_totals_data():
 
 @presentation_router.get("/average-per-mediatype-based-on-past-months")
 async def get_average_per_mediatypes_based_on_past_months_data():
-    return sales_media_types_per_country()
+    data = []
+    media_types_data = dict()
+    
+    try:
+        QUERY = f"SELECT * FROM MEDIA_TYPES_AVG_MONTHS_ALL_YEARS"
+        cursor = postgres_conn.cursor()
+        cursor.execute(query=QUERY)
+        
+        data = cursor.fetchall()
+        
+        for record in data: 
+            if record[0] in media_types_data:
+                media_types_data[record[0]]['media_type'] = record[0]
+                media_types_data[record[0]]['months'].append(record[1])
+                media_types_data[record[0]]['avg'].append(record[2])
+            else: 
+                media_types_data[record[0]] = dict()
+                media_types_data[record[0]]['months']=[record[1]]
+                media_types_data[record[0]]['avg']=[record[2]]
+             
+    except Exception as e:
+        print('error, details: ' + str(e))
+    finally:
+        cursor.close()
+        
+    return [value for _, value in media_types_data.items()]
+
 
 @presentation_router.get("/predict-sales-evolution")
 async def predict_sales_evolution(nr_years):
